@@ -1,0 +1,31 @@
+{
+  "name": "landingi/code-quality-tools",
+  "description": "Code Quality tools for CI and developing purposes",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Miłosz Lenczewski",
+      "email": "milosz.lenczewski@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Landingi\\QualityTools\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Landingi\\QualityTools\\Tests\\": "tests"
+    }
+  },
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^7.4",
+    "symfony/console": "^5.1",
+    "phpunit/phpunit": "^9.2"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master"
+  }
+}
