@@ -4,7 +4,7 @@ namespace Landingi\QualityTools\Coverage\Result;
 
 use Landingi\QualityTools\Result\ResultBuilder;
 
-final class CoverageResultBuilder implements ResultBuilder
+final class CoverageValidationResultBuilder implements ResultBuilder
 {
     private bool $resultStatus;
     private array $errors;
@@ -36,22 +36,23 @@ final class CoverageResultBuilder implements ResultBuilder
         return $this;
     }
 
-    public function addError($error): self
+    public function addError(string $error): self
     {
         $this->errors[] = $error;
+        $this->failed();
 
         return $this;
     }
 
-    public function setErrors(array $errors): self
+    public function addValidatorError(string $validatorClassName, array $errors): self
     {
-        $this->errors = $errors;
+        $this->addError(sprintf("%s -> (\n\t%s\n)", $validatorClassName, implode("\n\t", $errors)));
 
         return $this;
     }
 
-    public function build(): CoverageResult
+    public function build(): CoverageValidationResult
     {
-        return new CoverageResult($this->resultStatus, $this->errors);
+        return new CoverageValidationResult($this->resultStatus, $this->errors);
     }
 }

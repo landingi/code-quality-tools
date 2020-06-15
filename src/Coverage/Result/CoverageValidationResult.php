@@ -4,7 +4,7 @@ namespace Landingi\QualityTools\Coverage\Result;
 
 use Landingi\QualityTools\Result\Result;
 
-final class CoverageResult implements Result
+final class CoverageValidationResult implements Result
 {
     private bool $resultStatus;
     private array $errors;
@@ -18,6 +18,11 @@ final class CoverageResult implements Result
     public function getErrors(): array
     {
         return $this->errors;
+    }
+
+    public function hasErrors(): bool
+    {
+        return count($this->errors) > 0;
     }
 
     public function hasSucceeded(): bool

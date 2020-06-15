@@ -2,7 +2,11 @@
 
 namespace Landingi\QualityTools\Console;
 
-use Landingi\QualityTools\Coverage\CrapIndexValidator;
+use Landingi\QualityTools\Coverage\CloverCoverageParser;
+use Landingi\QualityTools\Coverage\CoverageParser;
+use Landingi\QualityTools\Coverage\Validator\CrapIndex\MethodCrapIndexValidator;
+use Landingi\QualityTools\Coverage\Validator\CrapIndexValidationExecutor;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -11,7 +15,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class CoverageValidatorCommand extends Command
 {
-    private const OPTION_COVERAGE_PHP_REPORT_PATH = 'coverage-php-path';
+    private const OPTION_COVERAGE_CLOVER_REPORT_PATH = 'coverage-clover-path';
     private const OPTION_CRAP_THRESHOLD = 'crap-threshold';
 
     protected static $defaultName = 'quality:coverage-validate';
@@ -22,25 +26,52 @@ final class CoverageValidatorCommand extends Command
             ->setDescription('Checks quality thresholds')
             ->setHelp('This command checks coverage report for indicated thresholds');
 
-        $this->addOption(self::OPTION_COVERAGE_PHP_REPORT_PATH, 'cpp', InputOption::VALUE_REQUIRED, 'PHP coverage report path');
-        $this->addOption(self::OPTION_CRAP_THRESHOLD, 'ct', InputOption::VALUE_REQUIRED, 'Minimum crap index threshold value');
+        $this->addOption(
+            self::OPTION_COVERAGE_CLOVER_REPORT_PATH,
+            'ccr',
+            InputOption::VALUE_REQUIRED,
+            'Clover format coverage report path'
+        );
+        $this->addOption(
+            self::OPTION_CRAP_THRESHOLD,
+            'ct',
+            InputOption::VALUE_REQUIRED,
+            'Minimum crap index threshold value'
+        );
+    }
+
+    private function chooseProcessor(InputInterface $input): CoverageParser
+    {
+        if ($input->getOption(self::OPTION_COVERAGE_CLOVER_REPORT_PATH) !== null) {
+            return new CloverCoverageParser($input->getOption(self::OPTION_COVERAGE_CLOVER_REPORT_PATH));
+        }
+
+        throw new RuntimeException('There is no supported coverage report provided');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        if ($input->getOption(self::OPTION_COVERAGE_PHP_REPORT_PATH) === null) {
-            $io->error('At least one coverage path must be provided');
+        $cloverCoverageParser = $this->chooseProcessor($input);
+        $coverage = $cloverCoverageParser->process();
 
-            return Command::FAILURE;
-        }
-
-        $crapThreshold = $input->getOption(self::OPTION_CRAP_THRESHOLD);
+        $crapThreshold = (int)$input->getOption(self::OPTION_CRAP_THRESHOLD);
         if ($crapThreshold !== null) {
-            $crapIndexValidator = new CrapIndexValidator($crapThreshold);
-//            $result = $crapIndexValidator->validate();
+            $crapIndexValidationProcessor = new CrapIndexValidationExecutor();
+            $crapIndexValidationProcessor->registerValidator(new MethodCrapIndexValidator($crapThreshold));
+            $validationResult = $crapIndexValidationProcessor->execute($coverage);
+
+            if ($validationResult->hasFailed()) {
+                if ($validationResult->hasErrors()) {
+                    $io->block($validationResult->getErrors(), 'ERROR', 'error');
+                }
+
+                return Command::FAILURE;
+            }
         }
+
+        $io->success('Coverage validation succeeded!');
 
         return Command::SUCCESS;
     }

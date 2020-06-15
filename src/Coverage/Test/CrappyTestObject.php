@@ -3,7 +3,7 @@
 namespace Landingi\QualityTools\Coverage\Test;
 
 /**
- * This class is used in testing CrapIndexValidator by executing coverage on it and checks if crap index resolver is working correctly
+ * This class is used in testing MethodCrapIndexValidator by executing coverage on it and checks if crap index resolver is working correctly
  */
 class CrappyTestObject
 {
