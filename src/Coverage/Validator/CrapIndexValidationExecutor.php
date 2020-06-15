@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Landingi\QualityTools\Coverage\Validator;
 
@@ -20,6 +20,9 @@ class CrapIndexValidationExecutor implements ValidationExecutor
         $this->validators = [];
     }
 
+    /**
+     * @return array<CoverageValidator>
+     */
     public function getValidators(): array
     {
         return $this->validators;

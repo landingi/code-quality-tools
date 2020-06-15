@@ -1,10 +1,14 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Landingi\QualityTools\Coverage\Package;
 
 final class FileClass
 {
     private ?string $name;
+
+    /**
+     * @var array<Method>
+     */
     private array $methods;
 
     public function __construct(?string $name)
@@ -24,7 +28,7 @@ final class FileClass
     }
 
     /**
-     * @return Method[]
+     * @return array<Method>
      */
     public function getMethods(): array
     {

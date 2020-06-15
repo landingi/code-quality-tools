@@ -1,9 +1,12 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Landingi\QualityTools\Coverage\Package;
 
 final class Coverage
 {
+    /**
+     * @var array<Package>
+     */
     private array $packages;
 
     public function __construct()
@@ -22,7 +25,7 @@ final class Coverage
     }
 
     /**
-     * @return Package[]
+     * @return array<Package>
      */
     public function getPackages(): array
     {

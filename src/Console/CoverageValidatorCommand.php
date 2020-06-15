@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Landingi\QualityTools\Console;
 
@@ -54,7 +54,7 @@ final class CoverageValidatorCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $cloverCoverageParser = $this->chooseProcessor($input);
         $coverage = $cloverCoverageParser->process();
-        $crapThreshold = (int)$input->getOption(self::OPTION_CRAP_THRESHOLD);
+        $crapThreshold = (int) $input->getOption(self::OPTION_CRAP_THRESHOLD);
 
         if ($crapThreshold !== null) {
             $crapIndexValidationProcessor = new CrapIndexValidationExecutor();
