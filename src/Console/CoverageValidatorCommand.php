@@ -1,4 +1,5 @@
-<?php declare(strict_types = 1);
+<?php
+declare(strict_types=1);
 
 namespace Landingi\QualityTools\Console;
 
@@ -40,15 +41,6 @@ final class CoverageValidatorCommand extends Command
         );
     }
 
-    private function chooseProcessor(InputInterface $input): CoverageParser
-    {
-        if ($input->getOption(self::OPTION_COVERAGE_CLOVER_REPORT_PATH) !== null) {
-            return new CloverCoverageParser($input->getOption(self::OPTION_COVERAGE_CLOVER_REPORT_PATH));
-        }
-
-        throw new RuntimeException('There is no supported coverage report provided');
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -73,5 +65,14 @@ final class CoverageValidatorCommand extends Command
         $io->success('Coverage validation succeeded!');
 
         return Command::SUCCESS;
+    }
+
+    private function chooseProcessor(InputInterface $input): CoverageParser
+    {
+        if ($input->getOption(self::OPTION_COVERAGE_CLOVER_REPORT_PATH) !== null) {
+            return new CloverCoverageParser($input->getOption(self::OPTION_COVERAGE_CLOVER_REPORT_PATH));
+        }
+
+        throw new RuntimeException('There is no supported coverage report provided');
     }
 }

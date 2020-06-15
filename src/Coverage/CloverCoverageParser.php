@@ -1,4 +1,5 @@
-<?php declare(strict_types = 1);
+<?php
+declare(strict_types=1);
 
 namespace Landingi\QualityTools\Coverage;
 
@@ -26,7 +27,7 @@ final class CloverCoverageParser implements CoverageParser
             $packageAttributes = $package->attributes();
 
             if (isset($packageAttributes->name)) {
-                $name = $packageAttributes->name;
+                $name = (string) $packageAttributes->name;
             }
 
             $coveragePackage = new Package($name ?? null);
@@ -48,7 +49,7 @@ final class CloverCoverageParser implements CoverageParser
             $classAttributes = $file->class->attributes();
 
             if (isset($classAttributes->name)) {
-                $name = $classAttributes->name;
+                $name = (string) $classAttributes->name;
             }
 
             $coverageFileClass = new FileClass($name ?? null);
@@ -70,7 +71,7 @@ final class CloverCoverageParser implements CoverageParser
                 continue;
             }
 
-            $coverageMethod = new Method($lineAttributes->name, (int)$lineAttributes->crap);
+            $coverageMethod = new Method((string) $lineAttributes->name, (int) $lineAttributes->crap);
             $coverageFileClass->addMethod($coverageMethod);
         }
     }

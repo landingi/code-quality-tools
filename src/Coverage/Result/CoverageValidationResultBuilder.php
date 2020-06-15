@@ -1,4 +1,5 @@
-<?php declare(strict_types = 1);
+<?php
+declare(strict_types=1);
 
 namespace Landingi\QualityTools\Coverage\Result;
 
@@ -26,16 +27,19 @@ final class CoverageValidationResultBuilder implements ResultBuilder
         return $this;
     }
 
-    public function failed(): self
+    public function setResultStatus(bool $resultStatus): self
     {
-        $this->resultStatus = false;
+        $this->resultStatus = $resultStatus;
 
         return $this;
     }
 
-    public function setResultStatus(bool $resultStatus): self
+    /**
+     * @param array<string> $errors
+     */
+    public function addValidatorError(string $validatorClassName, array $errors): self
     {
-        $this->resultStatus = $resultStatus;
+        $this->addError(sprintf("%s -> (\n\t%s\n)", $validatorClassName, implode("\n\t", $errors)));
 
         return $this;
     }
@@ -48,12 +52,9 @@ final class CoverageValidationResultBuilder implements ResultBuilder
         return $this;
     }
 
-    /**
-     * @param array<string> $errors
-     */
-    public function addValidatorError(string $validatorClassName, array $errors): self
+    public function failed(): self
     {
-        $this->addError(sprintf("%s -> (\n\t%s\n)", $validatorClassName, implode("\n\t", $errors)));
+        $this->resultStatus = false;
 
         return $this;
     }

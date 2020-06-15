@@ -1,4 +1,5 @@
-<?php declare(strict_types = 1);
+<?php
+declare(strict_types=1);
 
 namespace Landingi\QualityTools\Coverage;
 
@@ -11,6 +12,8 @@ interface ValidationExecutor
      * @return array<CoverageValidator>
      */
     public function getValidators(): array;
+
     public function registerValidator(CoverageValidator $validator): void;
+
     public function execute(Coverage $coverage): CoverageValidationResult;
 }
