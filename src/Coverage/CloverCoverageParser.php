@@ -46,12 +46,12 @@ final class CloverCoverageParser implements CoverageParser
     {
         foreach ($package->file as $file) {
             $classAttributes = $file->class->attributes();
+
             if (isset($classAttributes->name)) {
                 $name = $classAttributes->name;
             }
 
             $coverageFileClass = new FileClass($name ?? null);
-
             $this->processMethods($file, $coverageFileClass);
             $coveragePackage->addFileClass($coverageFileClass);
         }

@@ -17,4 +17,4 @@ WORKDIR /app
 RUN composer install
 VOLUME ["/project"]
 
-ENTRYPOINT ["php", "/app/quality.php"]
+ENTRYPOINT ["php", "/app/index.php"]

@@ -52,11 +52,10 @@ final class CoverageValidatorCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-
         $cloverCoverageParser = $this->chooseProcessor($input);
         $coverage = $cloverCoverageParser->process();
-
         $crapThreshold = (int)$input->getOption(self::OPTION_CRAP_THRESHOLD);
+
         if ($crapThreshold !== null) {
             $crapIndexValidationProcessor = new CrapIndexValidationExecutor();
             $crapIndexValidationProcessor->registerValidator(new MethodCrapIndexValidator($crapThreshold));
