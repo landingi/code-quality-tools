@@ -1,0 +1,39 @@
+{
+  "name": "landingi/code-quality-tools",
+  "description": "Code Quality tools for CI and developing purposes",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Miłosz Lenczewski",
+      "email": "milosz.lenczewski@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Landingi\\QualityTools\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Landingi\\QualityTools\\Tests\\": "tests"
+    }
+  },
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^7.4",
+    "symfony/console": "^5.1",
+    "phpunit/phpunit": "^9.2"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master",
+    "squizlabs/php_codesniffer": "^3.5",
+    "slevomat/coding-standard": "^6.3",
+    "phpstan/phpstan": "^0.12.29"
+  },
+  "scripts": {
+    "analyse": "vendor/bin/phpstan analyse -c ./phpstan.neon --level 6 src tests",
+    "check-style": "vendor/bin/phpcs -p --standard=ruleset.xml --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+    "fix-style": "vendor/bin/phpcbf -p --standard=ruleset.xml --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1  src tests"
+  }
+}
