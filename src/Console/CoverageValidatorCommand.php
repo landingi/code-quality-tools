@@ -16,6 +16,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class CoverageValidatorCommand extends Command
 {
+    private const CODE_FAILURE = 1;
+    private const CODE_SUCCESS = 0;
     private const OPTION_COVERAGE_CLOVER_REPORT_PATH = 'coverage-clover-path';
     private const OPTION_CRAP_THRESHOLD = 'crap-threshold';
 
@@ -58,13 +60,13 @@ final class CoverageValidatorCommand extends Command
                     $io->block($validationResult->getErrors(), 'ERROR', 'error');
                 }
 
-                return Command::FAILURE;
+                return self::CODE_FAILURE;
             }
         }
 
         $io->success('Coverage validation succeeded!');
 
-        return Command::SUCCESS;
+        return self::CODE_SUCCESS;
     }
 
     private function chooseProcessor(InputInterface $input): CoverageParser

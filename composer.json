@@ -9,6 +9,9 @@
       "email": "milosz.lenczewski@gmail.com"
     }
   ],
+  "bin": [
+    "cqt"
+  ],
   "autoload": {
     "psr-4": {
       "Landingi\\QualityTools\\": "src"
@@ -22,7 +25,7 @@
   "minimum-stability": "stable",
   "require": {
     "php": "^7.4",
-    "symfony/console": "^5.1",
+    "symfony/console": "^4.4",
     "phpunit/phpunit": "^9.2"
   },
   "require-dev": {
