@@ -10,7 +10,7 @@
     }
   ],
   "bin": [
-    "cqt"
+    "bin/cqt"
   ],
   "autoload": {
     "psr-4": {

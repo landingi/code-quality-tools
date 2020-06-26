@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+$loader = null;
+$files = [__DIR__ . '/../vendor/autoload.php', __DIR__ . '/../../../autoload.php'];
+
+foreach ($files as $file) {
+    if (file_exists($file)) {
+        $loader = require $file;
+
+        break;
+    }
+}
+
+if (!$loader) {
+    throw new RuntimeException('vendor/autoload.php could not be found. Did you run `php composer.phar install`?');
+}
+
+use Landingi\QualityTools\Console\CoverageValidatorCommand;
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+$application->add(new CoverageValidatorCommand());
+$application->run();
