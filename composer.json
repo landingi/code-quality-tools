@@ -10,7 +10,7 @@
     }
   ],
   "bin": [
-    "phpstan"
+    "cqt"
   ],
   "autoload": {
     "psr-4": {
