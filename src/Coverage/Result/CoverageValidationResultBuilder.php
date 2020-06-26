@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Landingi\QualityTools\Coverage\Result;
 
+use Landingi\QualityTools\Coverage\Validator\ValidatorError;
 use Landingi\QualityTools\Result\ResultBuilder;
 
 final class CoverageValidationResultBuilder implements ResultBuilder
@@ -10,14 +11,14 @@ final class CoverageValidationResultBuilder implements ResultBuilder
     private bool $resultStatus;
 
     /**
-     * @var array<string>
+     * @var array<ValidatorError>
      */
-    private array $errors;
+    private array $validatorErrors;
 
     public function __construct()
     {
         $this->resultStatus = false;
-        $this->errors = [];
+        $this->validatorErrors = [];
     }
 
     public function succeeded(): self
@@ -34,19 +35,9 @@ final class CoverageValidationResultBuilder implements ResultBuilder
         return $this;
     }
 
-    /**
-     * @param array<string> $errors
-     */
-    public function addValidatorError(string $validatorClassName, array $errors): self
+    public function addValidatorError(ValidatorError $validatorError): self
     {
-        $this->addError(sprintf("%s -> (\n\t%s\n)", $validatorClassName, implode("\n\t", $errors)));
-
-        return $this;
-    }
-
-    public function addError(string $error): self
-    {
-        $this->errors[] = $error;
+        $this->validatorErrors[] = $validatorError;
         $this->failed();
 
         return $this;
@@ -61,6 +52,6 @@ final class CoverageValidationResultBuilder implements ResultBuilder
 
     public function build(): CoverageValidationResult
     {
-        return new CoverageValidationResult($this->resultStatus, $this->errors);
+        return new CoverageValidationResult($this->resultStatus, $this->validatorErrors);
     }
 }

@@ -27,7 +27,7 @@ class CrapIndexValidationExecutorTest extends TestCase
         $result = $crapIndexValidationProcessor->execute($coverage);
 
         $this->assertTrue($result->hasErrors());
-        $this->assertCount(1, $result->getErrors());
+        $this->assertCount(1, $result->getValidatorErrors());
         $this->assertTrue($result->hasFailed());
     }
 }

@@ -43,7 +43,7 @@ class CrapIndexValidationExecutor implements ValidationExecutor
             $errors = $validator->validate($coverage);
 
             if (!empty($errors)) {
-                $resultBuilder->addValidatorError(get_class($validator), $errors);
+                $resultBuilder->addValidatorError(new ValidatorError(get_class($validator), $errors));
             }
         }
 
