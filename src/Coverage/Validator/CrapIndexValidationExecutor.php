@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Landingi\QualityTools\Coverage\Validator;
 
@@ -43,7 +42,7 @@ class CrapIndexValidationExecutor implements ValidationExecutor
             $errors = $validator->validate($coverage);
 
             if (!empty($errors)) {
-                $resultBuilder->addValidatorError(get_class($validator), $errors);
+                $resultBuilder->addValidatorError(new ValidatorError(get_class($validator), $errors));
             }
         }
 

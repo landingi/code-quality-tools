@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Landingi\QualityTools\Console;
 
@@ -7,6 +6,7 @@ use Landingi\QualityTools\Coverage\CloverCoverageParser;
 use Landingi\QualityTools\Coverage\CoverageParser;
 use Landingi\QualityTools\Coverage\Validator\CrapIndex\MethodCrapIndexValidator;
 use Landingi\QualityTools\Coverage\Validator\CrapIndexValidationExecutor;
+use Landingi\QualityTools\Coverage\Validator\Presenter\ValidatorResultTablePresenter;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -55,16 +55,13 @@ final class CoverageValidatorCommand extends Command
             $crapIndexValidationProcessor->registerValidator(new MethodCrapIndexValidator($crapThreshold));
             $validationResult = $crapIndexValidationProcessor->execute($coverage);
 
-            if ($validationResult->hasFailed()) {
-                if ($validationResult->hasErrors()) {
-                    $io->block($validationResult->getErrors(), 'ERROR', 'error');
-                }
+            $validationTablePresenter = new ValidatorResultTablePresenter($io);
+            $validationTablePresenter->present($validationResult);
 
+            if ($validationResult->hasFailed()) {
                 return self::CODE_FAILURE;
             }
         }
-
-        $io->success('Coverage validation succeeded!');
 
         return self::CODE_SUCCESS;
     }

@@ -1,8 +1,8 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Landingi\QualityTools\Coverage\Result;
 
+use Landingi\QualityTools\Coverage\Validator\ValidatorError;
 use Landingi\QualityTools\Result\Result;
 
 final class CoverageValidationResult implements Result
@@ -10,12 +10,12 @@ final class CoverageValidationResult implements Result
     private bool $resultStatus;
 
     /**
-     * @var array<string>
+     * @var array<ValidatorError>
      */
     private array $errors;
 
     /**
-     * @param array<string> $errors
+     * @param array<ValidatorError> $errors
      */
     public function __construct(bool $resultStatus, array $errors = [])
     {
@@ -24,9 +24,9 @@ final class CoverageValidationResult implements Result
     }
 
     /**
-     * @return array<string>
+     * @return array<ValidatorError>
      */
-    public function getErrors(): array
+    public function getValidatorErrors(): array
     {
         return $this->errors;
     }

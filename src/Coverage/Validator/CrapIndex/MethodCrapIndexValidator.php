@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Landingi\QualityTools\Coverage\Validator\CrapIndex;
 
@@ -7,6 +6,7 @@ use Landingi\QualityTools\Coverage\CoverageValidator;
 use Landingi\QualityTools\Coverage\Package\Coverage;
 use Landingi\QualityTools\Coverage\Package\FileClass;
 use Landingi\QualityTools\Coverage\Package\Method;
+use Landingi\QualityTools\Coverage\Validator\ViolatedMethod;
 
 final class MethodCrapIndexValidator implements CoverageValidator
 {
@@ -17,6 +17,9 @@ final class MethodCrapIndexValidator implements CoverageValidator
         $this->maximumCrapIndexThreshold = $maximumCrapIndexThreshold;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function validate(Coverage $coverage): array
     {
         $result = [];
@@ -27,7 +30,7 @@ final class MethodCrapIndexValidator implements CoverageValidator
                     $crapIndex = $method->getCrapIndex();
                     $validationResult = $this->processValidation($crapIndex, $fileClass, $method);
 
-                    if (!empty($validationResult)) {
+                    if ($validationResult !== null) {
                         $result[] = $validationResult;
                     }
                 }
@@ -37,15 +40,17 @@ final class MethodCrapIndexValidator implements CoverageValidator
         return $result;
     }
 
-    private function processValidation(int $crapIndex, FileClass $fileClass, Method $method): ?string
+    private function processValidation(int $crapIndex, FileClass $fileClass, Method $method): ?ViolatedMethod
     {
         if ($crapIndex > $this->maximumCrapIndexThreshold) {
-            return sprintf(
-                '%s:%s :: Maximum crap index (%d) threshold has been reached. Current method crap index is: %d!',
+            return new ViolatedMethod(
                 $fileClass->getName(),
                 $method->getName(),
-                $this->maximumCrapIndexThreshold,
-                $crapIndex
+                sprintf(
+                    'Maximum crap index (%d) threshold has been reached. Current method crap index is: %d!',
+                    $this->maximumCrapIndexThreshold,
+                    $crapIndex
+                )
             );
         }
 
