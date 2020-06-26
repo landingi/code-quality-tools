@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Landingi\QualityTools\Coverage\Result;
 
@@ -11,7 +10,7 @@ final class CoverageValidationResult implements Result
     private bool $resultStatus;
 
     /**
-     * @var array<string>
+     * @var array<ValidatorError>
      */
     private array $errors;
 
