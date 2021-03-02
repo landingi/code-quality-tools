@@ -6,18 +6,10 @@ The tool was created to support the maintenance of clean code by developers. The
 
 ## How to install?
 ```
-composer require landingi/code-quality-tools
+composer require --dev landingi/crap-metric-analyzer
 ```
 
-Also ensure that `composer.json` contains repman repository:
-
-```
-{
-    "repositories": [
-        {"type": "composer", "url": "https://landingi.repo.repman.io"}
-    ]
-}
-```
+## How to contribute?
 
 ## Usage
 ### quality:coverage-validate
