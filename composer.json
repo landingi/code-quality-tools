@@ -1,12 +1,12 @@
 {
-    "name": "landingi/code-quality-tools",
+    "name": "landingi/crap-metric-analyzer",
     "description": "Code Quality tools for CI and developing purposes",
     "type": "project",
     "license": "MIT",
     "authors": [
         {
             "name": "Miłosz Lenczewski",
-            "email": "milosz.lenczewski@gmail.com"
+            "email": "milosz.lenczewski@landingi.com"
         }
     ],
     "bin": [
