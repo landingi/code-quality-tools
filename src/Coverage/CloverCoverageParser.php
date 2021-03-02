@@ -1,4 +1,5 @@
-<?php declare(strict_types = 1);
+<?php
+declare(strict_types=1);
 
 namespace Landingi\QualityTools\Coverage;
 
@@ -15,7 +16,13 @@ final class CloverCoverageParser implements CoverageParser
 
     public function __construct(string $coverageReportPath)
     {
-        $this->simpleXml = simplexml_load_string(file_get_contents($coverageReportPath));
+        $file = file_get_contents($coverageReportPath);
+
+        if (false === $file) {
+            throw new RuntimeException('Invalid coverage report file');
+        }
+
+        $this->simpleXml = simplexml_load_string($file);
     }
 
     public function process(): Coverage
@@ -62,7 +69,7 @@ final class CloverCoverageParser implements CoverageParser
         foreach ($file->line as $line) {
             $lineAttributes = $line->attributes();
 
-            if (isset($lineAttributes->type) && $lineAttributes->type != 'method') {
+            if (isset($lineAttributes->type) && $lineAttributes->type !== 'method') {
                 continue;
             }
 

@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<ruleset name="landingi-code-quality-tools">
-    <!-- relative path from PHPCS source location -->
-    <config name="installed_paths" value="vendor/slevomat/coding-standard"/>
-
-    <!-- specific sniffs to include -->
-    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/DeclareStrictTypesSniff.php" />
-</ruleset>
