@@ -1,4 +1,5 @@
-<?php declare(strict_types = 1);
+<?php
+declare(strict_types=1);
 
 namespace Landingi\QualityTools\Tests\Coverage\Validator;
 
@@ -14,7 +15,7 @@ class CrapIndexValidationExecutorTest extends TestCase
         $crapIndexValidationProcessor = new CrapIndexValidationExecutor();
         $crapIndexValidationProcessor->registerValidator(new MethodCrapIndexValidator(5));
 
-        $this->assertCount(1, $crapIndexValidationProcessor->getValidators());
+        self::assertCount(1, $crapIndexValidationProcessor->getValidators());
     }
 
     public function testProperlyExecutingValidations(): void
@@ -25,8 +26,8 @@ class CrapIndexValidationExecutorTest extends TestCase
         $crapIndexValidationProcessor->registerValidator(new MethodCrapIndexValidator(5));
         $result = $crapIndexValidationProcessor->execute($coverage);
 
-        $this->assertTrue($result->hasErrors());
-        $this->assertCount(1, $result->getValidatorErrors());
-        $this->assertTrue($result->hasFailed());
+        self::assertFalse($result->hasErrors());
+        self::assertCount(0, $result->getValidatorErrors());
+        self::assertFalse($result->hasFailed());
     }
 }

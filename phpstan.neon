@@ -1,3 +1,6 @@
+includes:
+    - vendor/landingi/php-coding-standards/phpstan.neon
+
 parameters:
     excludes_analyse:
         - './src/Coverage/Test/*'

@@ -1,9 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Landingi\QualityTools\Coverage\Test;
 
 /**
- * This class is used in testing MethodCrapIndexValidator by executing coverage on it and checks if crap index resolver is working correctly
+ * This class is used in testing MethodCrapIndexValidator by executing coverage on it and checks if crap index resolver is working correctly.
  */
 class CrappyTestObject
 {
@@ -40,7 +40,7 @@ class CrappyTestObject
                                     $crappyArg2,
                                     $crappyArg3,
                                     $crappyArg4,
-                                ]
+                                ],
                             ];
                         }
                     }
@@ -54,7 +54,7 @@ class CrappyTestObject
                 $crappyArg2,
                 $crappyArg3,
                 $crappyArg4,
-            ]
+            ],
         ];
     }
 }
