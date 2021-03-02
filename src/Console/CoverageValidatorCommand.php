@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Landingi\QualityTools\Console;
 
+use InvalidArgumentException;
 use Landingi\QualityTools\Coverage\CloverCoverageParser;
 use Landingi\QualityTools\Coverage\CoverageParser;
 use Landingi\QualityTools\Coverage\Validator\CrapIndex\MethodCrapIndexValidator;
@@ -13,6 +14,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use function is_array;
+use function sprintf;
 
 final class CoverageValidatorCommand extends Command
 {
@@ -48,9 +51,9 @@ final class CoverageValidatorCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $cloverCoverageParser = $this->chooseProcessor($input);
         $coverage = $cloverCoverageParser->process();
-        $crapThreshold = (int) $input->getOption(self::OPTION_CRAP_THRESHOLD);
+        $crapThreshold = $this->getIntegerParameter($input, self::OPTION_CRAP_THRESHOLD);
 
-        if ($crapThreshold !== null) {
+        if (null !== $crapThreshold) {
             $crapIndexValidationProcessor = new CrapIndexValidationExecutor();
             $crapIndexValidationProcessor->registerValidator(new MethodCrapIndexValidator($crapThreshold));
             $validationResult = $crapIndexValidationProcessor->execute($coverage);
@@ -68,10 +71,32 @@ final class CoverageValidatorCommand extends Command
 
     private function chooseProcessor(InputInterface $input): CoverageParser
     {
-        if ($input->getOption(self::OPTION_COVERAGE_CLOVER_REPORT_PATH) !== null) {
-            return new CloverCoverageParser($input->getOption(self::OPTION_COVERAGE_CLOVER_REPORT_PATH));
+        if (null !== $input->getOption(self::OPTION_COVERAGE_CLOVER_REPORT_PATH)) {
+            return new CloverCoverageParser($this->getStringParameter($input, self::OPTION_COVERAGE_CLOVER_REPORT_PATH));
         }
 
         throw new RuntimeException('There is no supported coverage report provided');
+    }
+
+    private function getIntegerParameter(InputInterface $input, string $parameterName): int
+    {
+        $parameter = $input->getOption($parameterName);
+
+        if (empty($parameter) || is_array($parameter)) {
+            throw new InvalidArgumentException(sprintf('Invalid %s parameter exception', $parameterName));
+        }
+
+        return (int) $parameter;
+    }
+
+    private function getStringParameter(InputInterface $input, string $parameterName): string
+    {
+        $parameter = $input->getOption($parameterName);
+
+        if (empty($parameter) || is_array($parameter)) {
+            throw new InvalidArgumentException(sprintf('Invalid %s parameter exception', $parameterName));
+        }
+
+        return (string) $parameter;
     }
 }

@@ -14,15 +14,16 @@ class CloverCoverageProcessorTest extends TestCase
         $cloverCoverageProcessor = new CloverCoverageParser('resources/coverage/crap/crappy_test_object.xml');
         $coverage = $cloverCoverageProcessor->process();
 
-        $this->assertNotEmpty($coverage->getPackages());
+        self::assertNotEmpty($coverage->getPackages());
+
         foreach ($coverage->getPackages() as $package) {
-            $this->assertInstanceOf(Package::class, $package);
-            $this->assertNotEmpty($package->getClasses());
+            self::assertInstanceOf(Package::class, $package);
+            self::assertNotEmpty($package->getClasses());
 
             foreach ($package->getClasses() as $fileClass) {
                 foreach ($fileClass->getMethods() as $method) {
-                    $this->assertNotEmpty($method->getName());
-                    $this->assertNotEmpty($method->getCrapIndex());
+                    self::assertNotEmpty($method->getName());
+                    self::assertNotEmpty($method->getCrapIndex());
                 }
             }
         }

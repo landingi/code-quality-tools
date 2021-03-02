@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Landingi\QualityTools\Coverage\Validator\CrapIndex;
 
@@ -18,7 +18,7 @@ final class MethodCrapIndexValidator implements CoverageValidator
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function validate(Coverage $coverage): array
     {
@@ -30,7 +30,7 @@ final class MethodCrapIndexValidator implements CoverageValidator
                     $crapIndex = $method->getCrapIndex();
                     $validationResult = $this->processValidation($crapIndex, $fileClass, $method);
 
-                    if ($validationResult !== null) {
+                    if (null !== $validationResult) {
                         $result[] = $validationResult;
                     }
                 }

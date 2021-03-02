@@ -22,7 +22,13 @@ final class CloverCoverageParser implements CoverageParser
             throw new RuntimeException('Invalid coverage report file');
         }
 
-        $this->simpleXml = simplexml_load_string($file);
+        $simpleXML = simplexml_load_string($file);
+
+        if (false === $simpleXML) {
+            throw new RuntimeException('Invalid coverage report file');
+        }
+
+        $this->simpleXml = $simpleXML;
     }
 
     public function process(): Coverage
@@ -69,7 +75,7 @@ final class CloverCoverageParser implements CoverageParser
         foreach ($file->line as $line) {
             $lineAttributes = $line->attributes();
 
-            if (isset($lineAttributes->type) && $lineAttributes->type !== 'method') {
+            if (isset($lineAttributes->type) && 'method' !== $lineAttributes->type) {
                 continue;
             }
 

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Landingi\QualityTools\Coverage\Validator\Presenter;
 
@@ -35,7 +35,7 @@ final class ValidatorResultTablePresenter implements Presenter
                     $parsedErrors[] = [
                         $violatedMethod->getParentClass(),
                         $violatedMethod->getName(),
-                        $violatedMethod->getMessage()
+                        $violatedMethod->getMessage(),
                     ];
                 }
 
