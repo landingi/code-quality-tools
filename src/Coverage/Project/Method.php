@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Landingi\QualityTools\Coverage\Package;
+namespace Landingi\QualityTools\Coverage\Project;
 
 final class Method
 {

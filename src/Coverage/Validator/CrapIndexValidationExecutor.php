@@ -3,7 +3,7 @@
 namespace Landingi\QualityTools\Coverage\Validator;
 
 use Landingi\QualityTools\Coverage\CoverageValidator;
-use Landingi\QualityTools\Coverage\Package\Coverage;
+use Landingi\QualityTools\Coverage\Project\Coverage;
 use Landingi\QualityTools\Coverage\Result\CoverageValidationResult;
 use Landingi\QualityTools\Coverage\Result\CoverageValidationResultBuilder;
 use Landingi\QualityTools\Coverage\ValidationExecutor;

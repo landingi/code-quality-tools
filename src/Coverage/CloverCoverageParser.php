@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Landingi\QualityTools\Coverage;
 
-use Landingi\QualityTools\Coverage\Package\Coverage;
-use Landingi\QualityTools\Coverage\Package\FileClass;
-use Landingi\QualityTools\Coverage\Package\Method;
-use Landingi\QualityTools\Coverage\Package\Package;
+use Landingi\QualityTools\Coverage\Project\Coverage;
+use Landingi\QualityTools\Coverage\Project\FileClass;
+use Landingi\QualityTools\Coverage\Project\Method;
+use Landingi\QualityTools\Coverage\Project\Project;
 use RuntimeException;
 use SimpleXMLElement;
 
@@ -35,17 +35,13 @@ final class CloverCoverageParser implements CoverageParser
     {
         $coverage = new Coverage();
 
-        foreach ($this->simpleXml->project->package as $package) {
-            $packageAttributes = $package->attributes();
-
-            if (isset($packageAttributes->name)) {
-                $name = (string) $packageAttributes->name;
+        foreach ($this->simpleXml->project as $projectData) {
+            if (isset($projectData->package)) {
+                throw new RuntimeException('Invalid coverage report structure. Old Clover structure is not supported anymore');
             }
 
-            $coveragePackage = new Package($name ?? null);
-
-            $this->processFiles($package, $coveragePackage);
-            $coverage->addPackage($coveragePackage);
+            $this->processFiles($projectData, $project = new Project());
+            $coverage->addProject($project);
         }
 
         if (!$coverage->isValid()) {
@@ -55,9 +51,13 @@ final class CloverCoverageParser implements CoverageParser
         return $coverage;
     }
 
-    private function processFiles(SimpleXMLElement $package, Package $coveragePackage): void
+    private function processFiles(SimpleXMLElement $project, Project $coverageProject): void
     {
-        foreach ($package->file as $file) {
+        foreach ($project->file as $file) {
+            if (!$file->class) {
+                continue;
+            }
+
             $classAttributes = $file->class->attributes();
 
             if (isset($classAttributes->name)) {
@@ -66,7 +66,7 @@ final class CloverCoverageParser implements CoverageParser
 
             $coverageFileClass = new FileClass($name ?? null);
             $this->processMethods($file, $coverageFileClass);
-            $coveragePackage->addFileClass($coverageFileClass);
+            $coverageProject->addFileClass($coverageFileClass);
         }
     }
 
