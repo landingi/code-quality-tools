@@ -54,6 +54,10 @@ final class CloverCoverageParser implements CoverageParser
     private function processFiles(SimpleXMLElement $project, Project $coverageProject): void
     {
         foreach ($project->file as $file) {
+            if (!$file->class) {
+                continue;
+            }
+
             $classAttributes = $file->class->attributes();
 
             if (isset($classAttributes->name)) {
