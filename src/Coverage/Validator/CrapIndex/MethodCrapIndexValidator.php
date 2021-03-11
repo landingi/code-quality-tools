@@ -3,9 +3,9 @@
 namespace Landingi\QualityTools\Coverage\Validator\CrapIndex;
 
 use Landingi\QualityTools\Coverage\CoverageValidator;
-use Landingi\QualityTools\Coverage\Package\Coverage;
-use Landingi\QualityTools\Coverage\Package\FileClass;
-use Landingi\QualityTools\Coverage\Package\Method;
+use Landingi\QualityTools\Coverage\Project\Coverage;
+use Landingi\QualityTools\Coverage\Project\FileClass;
+use Landingi\QualityTools\Coverage\Project\Method;
 use Landingi\QualityTools\Coverage\Validator\ViolatedMethod;
 
 final class MethodCrapIndexValidator implements CoverageValidator
@@ -24,7 +24,7 @@ final class MethodCrapIndexValidator implements CoverageValidator
     {
         $result = [];
 
-        foreach ($coverage->getPackages() as $package) {
+        foreach ($coverage->getProjects() as $package) {
             foreach ($package->getClasses() as $fileClass) {
                 foreach ($fileClass->getMethods() as $method) {
                     $crapIndex = $method->getCrapIndex();

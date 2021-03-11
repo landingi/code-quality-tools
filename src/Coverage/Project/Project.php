@@ -1,25 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace Landingi\QualityTools\Coverage\Package;
+namespace Landingi\QualityTools\Coverage\Project;
 
-final class Package
+final class Project
 {
-    private ?string $name;
-
     /**
      * @var FileClass[]
      */
     private array $classes;
 
-    public function __construct(?string $name)
+    public function __construct()
     {
-        $this->name = $name;
         $this->classes = [];
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
     }
 
     public function addFileClass(FileClass $fileClass): void
