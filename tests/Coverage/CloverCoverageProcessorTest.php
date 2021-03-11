@@ -16,11 +16,11 @@ class CloverCoverageProcessorTest extends TestCase
 
         self::assertNotEmpty($coverage->getProjects());
 
-        foreach ($coverage->getProjects() as $package) {
-            self::assertInstanceOf(Project::class, $package);
-            self::assertNotEmpty($package->getClasses());
+        foreach ($coverage->getProjects() as $project) {
+            self::assertInstanceOf(Project::class, $project);
+            self::assertNotEmpty($project->getClasses());
 
-            foreach ($package->getClasses() as $fileClass) {
+            foreach ($project->getClasses() as $fileClass) {
                 foreach ($fileClass->getMethods() as $method) {
                     self::assertNotEmpty($method->getName());
                     self::assertNotEmpty($method->getCrapIndex());
