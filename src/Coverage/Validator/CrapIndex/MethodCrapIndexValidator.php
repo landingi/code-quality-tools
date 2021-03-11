@@ -24,8 +24,8 @@ final class MethodCrapIndexValidator implements CoverageValidator
     {
         $result = [];
 
-        foreach ($coverage->getProjects() as $package) {
-            foreach ($package->getClasses() as $fileClass) {
+        foreach ($coverage->getProjects() as $project) {
+            foreach ($project->getClasses() as $fileClass) {
                 foreach ($fileClass->getMethods() as $method) {
                     $crapIndex = $method->getCrapIndex();
                     $validationResult = $this->processValidation($crapIndex, $fileClass, $method);
